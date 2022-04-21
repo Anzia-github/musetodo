@@ -69,10 +69,10 @@ page {
 .btn_style {
   margin-top: 60rpx;
   background-color: transparent;
-  width: 180rpx !important;
+  width: 200rpx !important;
   border: 4rpx solid #CFCFCF;
   border-radius: 50rpx;
-  font-weight: 100;
+  font-weight: 300;
 }
 
 .box {

@@ -11,6 +11,12 @@ Page({
     updateId: '',
     updateFlag: true
   },
+  onShow() {
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      this.getTemplateList()
+    }
+  },
   getTemplateList() {
     wx.cloud.database().collection('template')
       .where({
@@ -27,9 +33,6 @@ Page({
         console.log('get error', err)
       })
   },
-  onLoad() {
-    this.getTemplateList()
-  },
   add() {
     this.setData({
       Flag: true,
@@ -41,8 +44,13 @@ Page({
   onClose() {
     this.setData({
       Flag: false,
-      updateFlag: true
     })
+    setTimeout(_ => {
+      this.setData({
+        Flag: false,
+        updateFlag: true
+      })
+    }, 500)
   },
   showUpdate(e) {
     let item = e.currentTarget.dataset.item
@@ -55,72 +63,95 @@ Page({
     })
   },
   Done() {
-    let title = this.data.title
-    let content = this.data.content
-    if (title.length == 0 || content.length == 0) {
-      Toast('Please enter the title and content.')
-    } else if (title.length >= 20) {
-      Toast('Title requires less than 20 words.')
-    } else if (!this.data.AddOrUpdate) {
-      wx.cloud.database().collection('template')
-        .add({
-          data: {
-            title: title,
-            content: content,
-            createTime: new Date(),
-            updateTime: new Date(),
-            deleteTime: new Date(),
-            delete: false
-          }
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      let title = this.data.title
+      let content = this.data.content
+      if (title.length == 0 || content.length == 0) {
+        Toast('Please enter the title and content.')
+      } else if (title.length >= 20) {
+        Toast('Title requires less than 20 words.')
+      } else if (!this.data.AddOrUpdate) {
+        wx.cloud.database().collection('template')
+          .add({
+            data: {
+              title: title,
+              content: content,
+              createTime: new Date(),
+              updateTime: new Date(),
+              deleteTime: new Date(),
+              delete: false
+            }
+          })
+          .then(res => {
+            console.log('add success', res)
+            this.getTemplateList()
+          })
+          .catch(err => {
+            console.log('add error', err)
+          })
+        this.setData({
+          Flag: false,
+          AddOrUpdate: false,
+          updateFlag: true
         })
-        .then(res => {
-          console.log('add success', res)
-          this.getTemplateList()
-        })
-        .catch(err => {
-          console.log('add error', err)
-        })
-      this.setData({
-        Flag: false,
-        title: '',
-        content: '',
-        AddOrUpdate: false,
-        updateFlag: true
-      })
-    } else if (this.data.AddOrUpdate) {
-      Dialog.alert({
-          message: 'Confirm update?',
-          showCancelButton: true,
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel'
-        }).then(() => {
-          wx.cloud.database().collection('template')
-            .doc(this.data.updateId)
-            .update({
-              data: {
-                title: title,
-                content: content,
-                updateTime: new Date(),
-              }
-            })
-            .then(res => {
-              console.log('update success', res)
-              this.getTemplateList()
-            })
-            .catch(err => {
-              console.log('update error', err)
-            })
+        setTimeout(_ => {
           this.setData({
-            Flag: false,
             title: '',
             content: '',
-            AddOrUpdate: false,
-            updateId: ''
           })
+        }, 500)
+      } else if (this.data.AddOrUpdate) {
+        Dialog.alert({
+            message: 'Confirm update?',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel'
+          }).then(() => {
+            wx.cloud.database().collection('template')
+              .doc(this.data.updateId)
+              .update({
+                data: {
+                  title: title,
+                  content: content,
+                  updateTime: new Date(),
+                }
+              })
+              .then(res => {
+                console.log('update success', res)
+                this.getTemplateList()
+              })
+              .catch(err => {
+                console.log('update error', err)
+              })
+            this.setData({
+              Flag: false,
+              AddOrUpdate: false,
+              updateId: ''
+            })
+            setTimeout(_ => {
+              this.setData({
+                title: '',
+                content: '',
+              })
+            }, 500)
+          })
+          .catch(() => {})
+      }
+    } else {
+      Dialog.confirm({
+          title: 'Need to login in before submitting.',
+          message: 'Press forward button to jump to the login page.',
+          confirmButtonText: 'Forward',
+          cancelButtonText: 'Cancel'
         })
-        .catch(() => {})
-    }
+        .then(() => {
+          wx.navigateBack()
+        })
+        .catch(() => {
 
+        })
+    }
   },
   delete(e) {
     // e.stopPropagation()
@@ -152,4 +183,20 @@ Page({
         // on cancel
       });
   },
+  // 转发分享给好友
+  onShareAppMessage: function (res) {
+    return {
+      title: 'Muse ToDo：简约优美的计时软件',
+      path: '/pages/time/index', //这里是被分享的人点击进来之后的页面
+      imageUrl: '../../image/person/logo.png' //图片的路径
+    }
+  },
+  // 分享到朋友圈
+  onShareTimeline: function () {
+    return {
+      title: 'Muse ToDo：简约优美的计时软件',
+      query: '',
+      imageUrl: '../../image/person/logo.png' //图片的路径
+    }
+  }
 })

@@ -97,7 +97,7 @@ Page {
 
 .achieve {
   color: #969696;
-  font-weight: 100;
+  font-weight: 500;
   position: absolute;
   top: 30rpx;
   right: 30rpx;
@@ -117,4 +117,11 @@ Page {
 .popupTitle {
   font-size: 46rpx;
   margin-bottom: 30rpx;
+}
+
+.empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

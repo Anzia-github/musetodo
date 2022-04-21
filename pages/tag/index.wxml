@@ -19,8 +19,9 @@
   <view class="achieve" bindtap="Done">Done</view>
   <view class="container">
     <view class="popupTitle">New Tag</view>
-    <input type="text" model:value="{{text}}" bindinput="inputTag" placeholder="Please input a new tag name" />
+    <input type="text" model:value="{{text}}" placeholder="Please input a new tag name" />
   </view>
 </van-popup>
 <van-toast id="van-toast" />
 <van-dialog id="van-dialog"/>
+<van-empty wx:if="{{cardList.length == 0}}" class="empty" description="" />

@@ -57,7 +57,7 @@
 }
 .achieve {
   color: #969696;
-  font-weight: 100;
+  font-weight: 500;
   position: absolute;
   top: 30rpx;
   right: 30rpx;

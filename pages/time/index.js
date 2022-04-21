@@ -2,6 +2,8 @@ import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 
+const app = getApp()
+
 Page({
   data: {
     time: 25 * 60 * 1000,
@@ -27,6 +29,18 @@ Page({
   onShow() {
     this.sortPlanList()
     this.sortList()
+    this.keepScreenOn()
+  },
+  // 屏幕常亮
+  keepScreenOn() {
+    wx.setKeepScreenOn({
+      keepScreenOn: true,
+      fail() { //如果失败 再进行调用
+        wx.setKeepScreenOn({
+          keepScreenOn: true
+        });
+      }
+    });
   },
   sortPlanList() {
     let lists = {
@@ -111,31 +125,55 @@ Page({
     })
   },
   timeon() {
-    this.setData({
-      show: true
-    })
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      this.setData({
+        show: true
+      })
+    } else {
+      Dialog.confirm({
+          title: 'Need to login in before using.',
+          message: 'Press forward button to jump to the login page.',
+          confirmButtonText: 'Forward',
+          cancelButtonText: 'Cancel'
+        })
+        .then(() => {
+          wx.switchTab({
+            url: '/pages/person/index',
+          })()
+        })
+        .catch(() => {
+
+        })
+    }
   },
   startConfirm(e) {
-    this.setData({
-      start: false,
-      pause: true,
-      show: false,
-      relaxFlag: false
-    })
-    console.log(e.detail);
     let index = e.detail.index
     let value = e.detail.value
     let timingPlan = this.data.sortList[value[0]][index[1]]
     console.log(timingPlan);
-    wx.setStorageSync('timingPlan', timingPlan)
-    let start = new Date()
-    let startTime = Date.parse(start)
-    this.setData({
-      startTime: startTime
-    })
-    console.log(startTime);
-    const countDown = this.selectComponent('.control-count-down');
-    countDown.start();
+    if (timingPlan) {
+      wx.setStorageSync('timingPlan', timingPlan)
+      let start = new Date()
+      let startTime = Date.parse(start)
+      this.setData({
+        startTime: startTime,
+        start: false,
+        pause: true,
+        show: false,
+        relaxFlag: false
+      })
+      const countDown = this.selectComponent('.control-count-down');
+      countDown.start();
+    } else {
+      Dialog.alert({
+          message: 'There is no task to start timing.',
+        })
+        .then(() => {})
+      this.setData({
+        show: false
+      })
+    }
   },
   pause() {
     this.setData({
@@ -191,8 +229,8 @@ Page({
         console.log(totalTime);
         this.addTime()
         this.addTagTime()
-        let min = Math.floor((totalTime/1000/60) << 0)
-        let sec = Math.floor((totalTime/1000) % 60)
+        let min = Math.floor((totalTime / 1000 / 60) << 0)
+        let sec = Math.floor((totalTime / 1000) % 60)
         Notify({
           type: 'success',
           message: `Focus on ${min < 10 ? '0' + min : min}:${sec < 10 ? '0'+sec : sec}`,
@@ -221,8 +259,8 @@ Page({
       })
       .then(res => {
         console.log('add success', res);
-        getApp().tagChart()
-        getApp().timeLine()
+        app.tagChart()
+        app.timeLine()
       })
       .catch(err => {
         console.log('add error', err);
@@ -295,6 +333,22 @@ Page({
   onHide() {
     if (!this.data.start) {
       this.pause()
+    }
+  },
+  // 转发分享给好友
+  onShareAppMessage: function (res) {
+    return {
+      title: 'Muse ToDo：简约优美的计时软件',
+      path: '/pages/time/index', //这里是被分享的人点击进来之后的页面
+      imageUrl: '../../image/person/logo.png' //图片的路径
+    }
+  },
+  // 分享到朋友圈
+  onShareTimeline: function () {
+    return {
+      title: 'Muse ToDo：简约优美的计时软件',
+      query: '',
+      imageUrl: '../../image/person/logo.png' //图片的路径
     }
   }
 })

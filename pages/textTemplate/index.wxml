@@ -1,13 +1,20 @@
 <view class="layout">
   <view class="templateCard">
-    <view class="template" wx:for="{{template}}" wx:key="_id" data-item="{{item}}" bindtap="showUpdate">
-      <view class="title" >
-        <view >{{item.title}}</view>
-        <view data-title="{{item.title}}" data-id="{{item._id}}" catchtap="delete"><van-icon name="cross" style="color: #FF7256;" /></view>
-      </view>
-      <view class="content">
-        <textarea disabled value="{{item.content}}" maxlength="300" name="" id=""></textarea>
-      </view>
+    <view class="template" wx:for="{{template}}" wx:key="_id"  >
+      <van-swipe-cell left-width="{{ 65 }}" >
+        <view class="delete" slot="left" data-id="{{item._id}}" catchtap="delete">
+          <van-icon name="delete-o" />
+        </view>
+        <view class="title">
+          <view>{{item.title}}</view>
+          <!-- <view data-title="{{item.title}}" data-id="{{item._id}}" catchtap="delete">
+            <van-icon name="cross" style="color: #FF7256;" />
+          </view> -->
+        </view>
+        <view class="content" bindtap="showUpdate" data-item="{{item}}">
+          <textarea disabled value="{{item.content}}" maxlength="300" name="" id=""></textarea>
+        </view>
+      </van-swipe-cell>
     </view>
   </view>
 </view>
@@ -18,7 +25,7 @@
   <view class="achieve" bindtap="Done">{{updateFlag ? 'Update' : 'Done'}}</view>
   <view class="form_style">
     <view class="text_style">
-      <input type="text" model:value='{{title}}' disabled="{{updateFlag}}" placeholder="Template name"/>
+      <input type="text" model:value='{{title}}' disabled="{{updateFlag}}" placeholder="Template name" />
     </view>
     <van-divider hairline />
     <textarea class="area" model:value='{{content}}' placeholder="Template content" maxlength="300"></textarea>
@@ -26,3 +33,4 @@
 </van-popup>
 <van-toast id="van-toast" />
 <van-dialog id="van-dialog" />
+<van-empty wx:if="{{template.length == 0}}" class="empty" description="" />

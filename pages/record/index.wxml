@@ -1,5 +1,6 @@
 <view class="layout">
   <view class="cardList">
+    <van-empty wx:if="{{cardList.length == 0}}" class="empty" description="" />
     <view class="card" wx:for="{{cardList}}" wx:key="_id">
       <van-swipe-cell left-width="{{ 65 }}">
         <view class="delete" slot="left" data-id="{{item._id}}" bindtap="delete">

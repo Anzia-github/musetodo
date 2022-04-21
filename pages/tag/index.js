@@ -7,26 +7,32 @@ Page({
     cardList: [],
     text: '',
   },
+  // 页面显示生命周期
+  onShow() {
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      this.getCardList()
+    }
+
+  },
   getCardList() {
     wx.cloud.database().collection('tag')
-    .where({
-      delete: false
-    })
-    .get()
-    .then(res => {
-      console.log('查询成功结果：', res.data)
-      this.setData({
-        cardList: res.data
+      .where({
+        delete: false
       })
-      wx.setStorageSync('tagList', res.data)
-    })
-    .catch(err => {
-      console.log('查询失败结果：', err)
-    })
+      .get()
+      .then(res => {
+        console.log('查询成功结果：', res.data)
+        this.setData({
+          cardList: res.data
+        })
+        wx.setStorageSync('tagList', res.data)
+      })
+      .catch(err => {
+        console.log('查询失败结果：', err)
+      })
   },
-  onLoad() {
-    this.getCardList()
-  },
+
   add() {
     this.setData({
       popupFlag: true
@@ -39,33 +45,49 @@ Page({
     })
   },
   Done() {
-    let text = this.data.text
-    if (text.length == 0) {
-      Toast('Please enter the content.')
-    } else if (text.length >= 20) {
-      Toast('Input requires less than 20 words.')
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      let text = this.data.text
+      if (text.length == 0) {
+        Toast('Please enter the content.')
+      } else if (text.length >= 20) {
+        Toast('Input requires less than 20 words.')
+      } else {
+        wx.cloud.database().collection('tag')
+          .add({
+            data: {
+              title: this.data.text,
+              createTime: new Date(),
+              deleteTime: new Date(),
+              delete: false,
+              totalTime: '0.00'
+            }
+          })
+          .then(res => {
+            console.log('add success', res)
+            this.getCardList()
+          })
+          .catch(err => {
+            console.log('add error', err)
+          })
+        this.setData({
+          popupFlag: false,
+          text: ''
+        })
+      }
     } else {
-      wx.cloud.database().collection('tag')
-        .add({
-          data: {
-            title: this.data.text,
-            createTime: new Date(),
-            deleteTime: new Date(),
-            delete: false,
-            totalTime: '0.00'
-          }
+      Dialog.confirm({
+          title: 'Need to login in before submitting.',
+          message: 'Press forward button to jump to the login page.',
+          confirmButtonText: 'Forward',
+          cancelButtonText: 'Cancel'
         })
-        .then(res => {
-          console.log('add success', res)
-          this.getCardList()
+        .then(() => {
+          wx.navigateBack()
         })
-        .catch(err => {
-          console.log('add error', err)
+        .catch(() => {
+
         })
-      this.setData({
-        popupFlag: false,
-        text: ''
-      })
     }
   },
   delete(e) {
@@ -93,11 +115,10 @@ Page({
           .catch(err => {
             console.log('remove err', err)
           })
-          app.getTagList()
+        app.getTagList()
       })
       .catch(() => {
         // on cancel
       });
   },
-  inputTag(e) {}
 })

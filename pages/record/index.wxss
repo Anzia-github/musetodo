@@ -73,7 +73,7 @@
 
 .achieve {
   color: #969696;
-  font-weight: 100;
+  font-weight: 500;
   position: absolute;
   top: 30rpx;
   right: 30rpx;
@@ -108,4 +108,11 @@
   top: 40%;
   right: 55%;
   color: #EE9572;
+}
+
+.empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -20,9 +20,20 @@ Page({
     template: [],
     templateId: '',
     recordId: '',
-    cardList: []
+    cardList: [],
+  },
+  onShow() {
+    let user = wx.getStorageSync('user')
+    let record = wx.getStorageSync('recordList')
+    this.setData({
+      cardList: record
+    })
+    if (user.length != 0) {
+      this.getTemplateList()
+    }
   },
   getRecordList() {
+    console.log('getRecordList');
     wx.cloud.database().collection('text')
       .where({
         delete: false
@@ -33,12 +44,14 @@ Page({
         this.setData({
           cardList: res.data
         })
+        wx.setStorageSync('recordList', res.data)
       })
       .catch(err => {
         console.log('get error', err)
       })
   },
   getTemplateList() {
+    console.log('getTemplateList');
     wx.cloud.database().collection('template')
       .where({
         delete: false
@@ -58,10 +71,6 @@ Page({
         console.log('get error', err)
       })
   },
-  onShow() {
-    this.getTemplateList()
-    this.getRecordList()
-  },
   popupCancel() {
     if (this.data.title == 'Filter text types') {
       this.data.columns.shift()
@@ -76,7 +85,6 @@ Page({
   popupConfirm() {
     let picker = this.selectComponent('#picker')
     let index = picker.getIndexes()[0]
-    console.log('下标', index)
     if (this.data.title == 'Filter text types') { // 这个是确认筛选
       this.filter(index)
       this.data.columns.shift()
@@ -165,22 +173,56 @@ Page({
     // Toast(`当前值：${value}, 当前索引：${index}`);
   },
   showSetting() {
-    this.data.columns.unshift('All')
-    this.setData({
-      show: true,
-      title: 'Filter text types',
-      columns: this.data.columns
-    })
-    console.log(this.data.columns)
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      this.data.columns.unshift('All')
+      this.setData({
+        show: true,
+        title: 'Filter text types',
+        columns: this.data.columns
+      })
+    } else {
+      Dialog.confirm({
+          title: 'Need to login in before using.',
+          message: 'Press forward button to jump to the login page.',
+          confirmButtonText: 'Forward',
+          cancelButtonText: 'Cancel'
+        })
+        .then(() => {
+          wx.switchTab({
+            url: '/pages/person/index'
+          })
+        })
+        .catch(() => {
+
+        })
+    }
   },
   showTemplate() {
-    console.log(this.data.columns)
-    this.setData({
-      show: true,
-      title: 'Select text template',
-      flag: 1,
-      columns: this.data.columns
-    })
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      this.setData({
+        show: true,
+        title: 'Select text template',
+        flag: 1,
+        columns: this.data.columns
+      })
+    } else {
+      Dialog.confirm({
+          title: 'Need to login in before using.',
+          message: 'Press forward button to jump to the login page.',
+          confirmButtonText: 'Forward',
+          cancelButtonText: 'Cancel'
+        })
+        .then(() => {
+          wx.switchTab({
+            url: '/pages/person/index'
+          })
+        })
+        .catch(() => {
+
+        })
+    }
   },
   onClose() {
     this.setData({

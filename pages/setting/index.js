@@ -1,4 +1,5 @@
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
+import Notify from '../../miniprogram_npm/@vant/weapp/notify/notify';
 
 Page({
   data: {
@@ -37,6 +38,7 @@ Page({
     if (this.data.rateFlag && this.data.rateValue > 0) {
       let text = '小程序评分：' + this.data.rateValue
       this.sendEmail(text)
+      Notify({ type: 'success', message: 'Rate success' });
     }
     this.setData({
       rateFlag: false,
@@ -58,6 +60,7 @@ Page({
       this.setData({
         feedFlag: false
       })
+      Notify({ type: 'success', message: 'Feedback success' });
     }
   },
   showAbout() {
@@ -67,6 +70,12 @@ Page({
   },
   logout() {
     wx.removeStorageSync('user')
+    wx.removeStorageSync('planList')
+    wx.removeStorageSync('tagList')
+    wx.removeStorageSync('tagChart')
+    wx.removeStorageSync('lineChart')
+    wx.removeStorageSync('recordList')
+    wx.removeStorageSync('timingPlan')
     wx.navigateBack()
   }
 })

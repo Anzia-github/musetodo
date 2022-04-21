@@ -5,7 +5,8 @@
     "van-popup": "@vant/weapp/popup/index",
     "van-divider": "@vant/weapp/divider/index",
     "van-dialog": "@vant/weapp/dialog/index",
-    "van-toast": "@vant/weapp/toast/index"
+    "van-toast": "@vant/weapp/toast/index",
+    "van-empty": "@vant/weapp/empty/index"
   },
   "navigationBarTitleText": "Template Management"
 }

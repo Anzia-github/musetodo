@@ -24,7 +24,7 @@
     <van-divider hairline />
     <view class="colStyle">
       <view>Version</view>
-      <view>v1.0.0</view>
+      <view>v1.1.0</view>
     </view>
     <van-divider hairline />
     <view class="btnStyle">
@@ -50,3 +50,4 @@
   </view>
 </van-popup>
 <van-toast id="van-toast" />
+<van-notify id="van-notify" />

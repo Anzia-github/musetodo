@@ -3,7 +3,8 @@
     "van-popup": "@vant/weapp/popup/index",
     "van-toast": "@vant/weapp/toast/index",
     "van-icon": "@vant/weapp/icon/index",
-    "van-dialog": "@vant/weapp/dialog/index"
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-empty": "@vant/weapp/empty/index"
   },
   "navigationBarTitleText": "Tag Management"
 }

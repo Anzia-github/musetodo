@@ -22,14 +22,15 @@ Page({
     create: '',
   },
   // 生命周期
-  onLoad() {
-    this.getPlanList()
-  },
   onShow() {
-    this.setData({
-      planList: wx.getStorageSync('planList'),
-      tagList: wx.getStorageSync('tagList')
-    })
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      this.setData({
+        planList: wx.getStorageSync('planList'),
+        tagList: wx.getStorageSync('tagList')
+      })
+      this.getPlanList()
+    }
   },
   // ********************************
   // 从plan表get数据
@@ -44,8 +45,10 @@ Page({
         this.setData({
           planList: res.data
         })
-        getApp().globalData.planList = this.data.planList
         wx.setStorageSync('planList', res.data)
+        this.setData({
+          planList: res.data
+        })
       })
       .catch(err => {
         console.log('getPlan error', err);
@@ -134,7 +137,7 @@ Page({
       })
       .then(res => {
         console.log('updatePlan success', res);
-        app.getPlanList()
+        this.getPlanList()
       })
       .catch(err => {
         console.log('updatePlan error', err)
@@ -164,25 +167,47 @@ Page({
   },
   // 点击添加按钮触发的事件
   add() {
-    let getDate = new Date()
-    let time = this.formatDay(getDate).localtime
-    this.setData({
-      create: getDate,
-      localTime: time,
-      show: true
-    })
+    let user = wx.getStorageSync('user')
+    if (user.length != 0) {
+      let getDate = new Date()
+      let time = this.formatDay(getDate).localtime
+      this.setData({
+        create: getDate,
+        localTime: time,
+        show: true
+      })
+    } else {
+      Dialog.confirm({
+          title: 'Need to login in before adding.',
+          message: 'Press forward button to jump to the login page.',
+          confirmButtonText: 'Forward',
+          cancelButtonText: 'Cancel'
+        })
+        .then(() => {
+          wx.switchTab({
+            url: '/pages/person/index',
+          })()
+        })
+        .catch(() => {
+
+        })
+    }
   },
   // 关闭按钮触发的事件
   onClose() {
     this.setData({
       show: false,
-      title: '',
-      remarks: '',
-      urgency: '',
-      tagName: '',
-      tagId: '',
-      updateId: '',
     })
+    setTimeout(_ => {
+      this.setData({
+        title: '',
+        remarks: '',
+        updateId: '',
+        urgency: '',
+        tagName: '',
+        tagId: '',
+      })
+    }, 500)
   },
   // 点击完成按钮触发的事件
   Done() {
@@ -283,6 +308,28 @@ Page({
       remarks: item.remarks,
       updateId: item._id
     })
+  },
+  // 转发分享给好友
+  onShareAppMessage: function (res) {
+    if (res.from == 'button') {
+      console.log(res.target, res)
+    }
+    return {
+      title: 'Muse ToDo：简约优美的计时软件',
+      path: '/pages/List/index', //这里是被分享的人点击进来之后的页面
+      imageUrl: '../../image/person/logo.png' //图片的路径
+    }
+  },
+  // 分享到朋友圈
+  onShareTimeline: function () {
+    if (res.from == 'button') {
+      console.log(res.target, res)
+    }
+    return {
+      title: 'Muse ToDo：简约优美的计时软件',
+      query: '',
+      imageUrl: '../../image/person/logo.png' //图片的路径
+    }
   }
   // --------------------------------
 })

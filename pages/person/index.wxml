@@ -46,7 +46,6 @@
           <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ pie2 }}"></ec-canvas>
         </view>
       </view>
-
     </view>
     <view class="page">
       {{today}}

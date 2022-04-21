@@ -4,17 +4,8 @@ App({
     wx.cloud.init({
       env: 'time-manage-8gxwgld9070ec562'
     })
-    this.getPlanList()
-    this.getTagList()
-    this.tagChart()
-    this.timeLine()
   },
-  globalData: {
-    userInfo: null,
-    planList: [],
-    tagChart: {},
-    lineChart: {},
-  },
+  globalData: {},
   // ********************************************
   // 从plan表get数据
   getPlanList() {
@@ -25,7 +16,6 @@ App({
       .get()
       .then(res => {
         console.log('getPlan success', res);
-        this.globalData.planList = res.data
         wx.setStorageSync('planList', res.data)
       })
       .catch(err => {
@@ -38,10 +28,12 @@ App({
       .where({
         delete: false
       })
+      .where({
+        delete: false
+      })
       .get()
       .then(res => {
         console.log('get tag success', res)
-        this.globalData.tagList = res.data
         wx.setStorageSync('tagList', res.data)
       })
       .catch(err => {
@@ -66,32 +58,87 @@ App({
       .then(res => {
         time = res.data
         console.log(time);
+        let dayMap = new Map()
+        let weekMap = new Map()
+        let monthMap = new Map()
         for (let i = 0; i < time.length; i++) {
           if (time[i].dataTime < now && time[i].dataTime > now - day) { // day
-            tagChart.day.push({
-              value: time[i].totalTime,
-              name: time[i].tagName
-            })
+            if (dayMap.has(time[i].tagName)) {
+              dayMap.set(time[i].tagName, dayMap.get(time[i].tagName) + time[i].totalTime)
+            } else {
+              dayMap.set(time[i].tagName, time[i].totalTime)
+            }
           }
           if (time[i].dataTime < now && time[i].dataTime > now - week) { // week
-            tagChart.week.push({
-              value: time[i].totalTime,
-              name: time[i].tagName
-            })
+            if (weekMap.has(time[i].tagName)) {
+              weekMap.set(time[i].tagName, weekMap.get(time[i].tagName) + time[i].totalTime)
+            } else {
+              weekMap.set(time[i].tagName, time[i].totalTime)
+            }
           }
           if (time[i].dataTime < now && time[i].dataTime > now - month) { // month
-            tagChart.month.push({
-              value: time[i].totalTime,
-              name: time[i].tagName
-            })
+            if (monthMap.has(time[i].tagName)) {
+              monthMap.set(time[i].tagName, monthMap.get(time[i].tagName) + time[i].totalTime)
+            } else {
+              monthMap.set(time[i].tagName, time[i].totalTime)
+            }
           }
         }
-        this.globalData.tagChart = tagChart
-        console.log('globalData 的 tagChart', this.globalData.tagChart);
+        dayMap.forEach((value, key) => {
+          tagChart.day.push({
+            value: value,
+            name: key
+          })
+        })
+        weekMap.forEach((value, key) => {
+          tagChart.week.push({
+            value: value,
+            name: key
+          })
+        })
+        monthMap.forEach((value, key) => {
+          tagChart.month.push({
+            value: value,
+            name: key
+          })
+        })
+        if (tagChart.day.length == 0) {
+          tagChart.day = [{
+            value: 1,
+            name: 'None'
+          }]
+        }
+        if (tagChart.week.length == 0) {
+          tagChart.week = [{
+            value: 1,
+            name: 'None'
+          }]
+        }
+        if (tagChart.month.length == 0) {
+          tagChart.month = [{
+            value: 1,
+            name: 'None'
+          }]
+        }
         wx.setStorageSync('tagChart', tagChart)
         console.log(tagChart);
       })
       .catch(err => {})
+  },
+  getRecordList() {
+    console.log('getRecordList');
+    wx.cloud.database().collection('text')
+      .where({
+        delete: false
+      })
+      .get()
+      .then(res => {
+        console.log('get success', res)
+        wx.setStorageSync('recordList', res.data)
+      })
+      .catch(err => {
+        console.log('get error', err)
+      })
   },
   timeLine() {
     console.log('调用了全局函数timeLine');
@@ -124,8 +171,6 @@ App({
             this.compareTime(averageTime, lineChart.month, time[i])
           }
         }
-        this.globalData.lineChart = lineChart
-        console.log('globalData 的 lineChart', this.globalData.lineChart);
         wx.setStorageSync('lineChart', lineChart)
         console.log(lineChart);
       })
