@@ -281,7 +281,6 @@ Page({
       })
       .then(res => {
         console.log('add success', res)
-        this.getCardList()
       })
       .catch(err => {
         console.log('add error', err)
@@ -302,7 +301,6 @@ Page({
       })
       .then(res => {
         console.log('add success', res)
-        this.getTemplateList()
       })
       .catch(err => {
         console.log('add error', err)

@@ -1,6 +1,8 @@
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
+const app = getApp()
+
 Page({
   data: {
     popupFlag: false,
@@ -111,11 +113,11 @@ Page({
           .then(res => {
             console.log('remove success', res)
             this.getCardList()
+            app.tagChart()
           })
           .catch(err => {
             console.log('remove err', err)
           })
-        app.getTagList()
       })
       .catch(() => {
         // on cancel

@@ -8,16 +8,15 @@ Page({
     show: false,
     localTime: '',
     urgency: '',
-    tag: '',
     tagName: '',
     tagId: '',
     pickerShow: false,
     columns: [],
-    tagcolumns: [],
     pickerTitle: '',
     title: '',
     remarks: '',
     planList: [],
+    tagList: [],
     updateId: '',
     create: '',
   },
@@ -30,6 +29,11 @@ Page({
         tagList: wx.getStorageSync('tagList')
       })
       this.getPlanList()
+    } else {
+      this.setData({
+        planList: [],
+        tagList:[]
+      })
     }
   },
   // ********************************
