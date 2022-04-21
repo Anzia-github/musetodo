@@ -1,0 +1,185 @@
+.layout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.person {
+  width: 90%;
+  height: 200rpx;
+  margin-bottom: 60rpx;
+}
+
+.text_style {
+  margin-top: 30rpx;
+}
+
+.name {
+  font-weight: bolder;
+  font-size: 45rpx;
+  margin-bottom: 40rpx;
+}
+
+.sum {
+  display: flex;
+}
+
+.number {
+  font-size: 30rpx;
+}
+
+.font {
+  font-size: 20rpx;
+  margin-right: 80rpx;
+  color: #8C8C8C;
+}
+
+.photo {
+  position: absolute;
+  top: 40rpx;
+  right: 36rpx;
+  display: flex;
+  align-items: center;
+}
+
+.photo image {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
+  margin-right: 30rpx;
+}
+
+.photo van-icon {
+  font-size: 40rpx;
+}
+
+.classify {
+  width: 90%;
+  height: 90rpx;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 60rpx;
+}
+
+.element {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20rpx;
+  margin-top: 40rpx;
+}
+
+.box {
+  height: 100%;
+  width: 100% !important;
+  margin: 0 !important;
+  border-radius: 30rpx;
+}
+
+.box text {
+  font-weight: 100;
+  font-size: 30rpx;
+}
+
+.plan_tag {
+  background-color: #ccffff;
+}
+
+.record_tag {
+  background-color: #ff9966;
+}
+
+.psychology_tag {
+  background-color: #99ffcc;
+}
+
+.book_tag {
+  background-color: #cc66ff;
+}
+
+.chart {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100rpx;
+}
+
+.task {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pie {
+  width: 100%;
+  height: 680rpx;
+}
+
+.lineChart {
+  width: 100%;
+  height: 800rpx;
+}
+
+.title {
+  width: 100%;
+  display: flex;
+  height: 80rpx;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chart_title {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.page {
+  margin-top: 10rpx;
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.date view {
+  display: inline-block;
+  text-align: center;
+  width: 110rpx;
+  padding: 10rpx;
+  border-radius: 20rpx;
+  z-index: 100;
+}
+
+.foucus {
+  margin-top: 100rpx;
+}
+
+.chartStyle {
+  position: relative;
+}
+
+ec-canvas {
+  position: absolute;
+  top: 20rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600rpx;
+  height: 600rpx;
+  display: block;
+}
+
+.line {
+  width: 800rpx;
+  height: 800rpx;
+}
+
+.form_style {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 120rpx;
+}

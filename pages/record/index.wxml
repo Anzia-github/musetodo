@@ -1,0 +1,57 @@
+<view class="layout">
+  <view class="cardList">
+    <view class="card" wx:for="{{cardList}}" wx:key="_id">
+      <van-swipe-cell left-width="{{ 65 }}">
+        <view class="delete" slot="left" data-id="{{item._id}}" bindtap="delete">
+          <van-icon name="delete-o" />
+        </view>
+        <view class="text_style">
+          <text>{{item.updateFormatTime}}</text>
+          <text>{{item.templateName}}</text>
+          <text>{{item.date}}</text>
+        </view>
+        <textarea data-item="{{item}}" bindtap="showCard" class="content" disabled value="{{item.content}}"></textarea>
+      </van-swipe-cell>
+    </view>
+  </view>
+</view>
+<view class="btn set" bindtap="showSetting">
+  <image src="../../image/record/setting.png" alt="setting" />
+</view>
+<view class="btn add" bindtap="showTemplate">
+  <image src="../../image/record/pen.png" alt="pen" />
+</view>
+<van-popup show="{{ show }}" round position="bottom" custom-style="height: 40%">
+  <van-picker columns="{{ columns }}" close-on-click-overlay="{{false}}" show-toolbar title="{{title}}" id='picker' default-index="{{ 0 }}" confirm-button-text='Confirm' cancel-button-text='Cencel' bind:cancel="popupCancel" bind:confirm="popupConfirm" bind:change="popupChange" />
+</van-popup>
+<van-popup show="{{ showTextArea }}" closeable close-icon-position="top-left" close-on-click-overlay="{{false}}" position="top" custom-style="height: 100%" bind:close="onClose">
+  <view class="achieve" bindtap="Done">Done</view>
+  <view class="form_style">
+    <view class="text_style">
+      <text>{{time.localtime}}</text>
+      <text>{{templateName}}</text>
+      <text>{{time.date}}</text>
+    </view>
+    <van-divider hairline />
+    <scroll-view scroll-y class="" style="height: 1060rpx;">
+      <textarea class="area" placeholder="Write down your experiences and feelings" model:value='{{content}}' name="" id="" auto-height maxlength="2000"></textarea>
+    </scroll-view>
+  </view>
+</van-popup>
+<van-popup show="{{ cardFlag }}" closeable close-icon-position="top-right" close-on-click-overlay="{{false}}" round custom-style="height: 90%; width: 90%;" bind:close="onClose">
+  <view class="achieve edit" bindtap="Edit" wx:if="{{textFlag}}">Edit</view>
+  <view class="achieve edit" bindtap="Update" wx:if="{{!textFlag}}">Update</view>
+  <view class="form_style">
+    <view class="text_style">
+      <text>{{time.localtime}}</text>
+      <text>{{templateName}}</text>
+      <text>{{time.date}}</text>
+    </view>
+    <van-divider hairline />
+    <scroll-view scroll-y class="" style="height: 920rpx;">
+      <textarea class="area" model:value='{{content}}' name="" id="" auto-height maxlength="2000" disabled="{{textFlag}}"></textarea>
+    </scroll-view>
+  </view>
+</van-popup>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

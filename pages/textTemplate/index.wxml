@@ -1,0 +1,28 @@
+<view class="layout">
+  <view class="templateCard">
+    <view class="template" wx:for="{{template}}" wx:key="_id" data-item="{{item}}" bindtap="showUpdate">
+      <view class="title" >
+        <view >{{item.title}}</view>
+        <view data-title="{{item.title}}" data-id="{{item._id}}" catchtap="delete"><van-icon name="cross" style="color: #FF7256;" /></view>
+      </view>
+      <view class="content">
+        <textarea disabled value="{{item.content}}" maxlength="300" name="" id=""></textarea>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="add" bindtap="add">
+  <image src="../../image/list/add.png" alt="add" />
+</view>
+<van-popup show="{{ Flag }}" closeable close-icon-position="top-left" close-on-click-overlay="{{false}}" round custom-style="height: 70%; width: 90%;" bind:close="onClose">
+  <view class="achieve" bindtap="Done">{{updateFlag ? 'Update' : 'Done'}}</view>
+  <view class="form_style">
+    <view class="text_style">
+      <input type="text" model:value='{{title}}' disabled="{{updateFlag}}" placeholder="Template name"/>
+    </view>
+    <van-divider hairline />
+    <textarea class="area" model:value='{{content}}' placeholder="Template content" maxlength="300"></textarea>
+  </view>
+</van-popup>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />

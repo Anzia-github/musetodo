@@ -1,0 +1,26 @@
+<view class="layout">
+  <view class="cardList">
+    <view class="card" wx:for="{{cardList}}" wx:key="_id">
+      <view class="title">
+        <view class="title">{{item.title}}</view>
+        <van-icon class="close" data-id="{{item._id}}" bindtap="delete" name="cross" />
+      </view>
+      <view class="time">
+        <text class="number">{{(item.totalTime == '0.00' ? item.totalTime : item.totalTime / 1000 / 60 / 60)}}</text>
+        <text class="hour">Hours</text>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="add" bindtap="add">
+  <image src="../../image/list/add.png" alt="add" />
+</view>
+<van-popup round show="{{ popupFlag }}" closeable bind:close="onClose" close-on-click-overlay="{{false}}" position="bottom" close-icon-position="top-left" custom-style="height: 50%;" bind:close="onClose">
+  <view class="achieve" bindtap="Done">Done</view>
+  <view class="container">
+    <view class="popupTitle">New Tag</view>
+    <input type="text" model:value="{{text}}" bindinput="inputTag" placeholder="Please input a new tag name" />
+  </view>
+</van-popup>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog"/>

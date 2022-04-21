@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/list/index",
+    "pages/time/index",
+    "pages/record/index",
+    "pages/person/index",
+    "pages/textTemplate/index",
+    "pages/tag/index",
+    "pages/setting/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#bfbfbf",
+    "borderStyle": "white",
+    "selectedColor": "#000000",
+    "list": [{
+      "pagePath": "pages/list/index",
+      "text": "",
+      "iconPath": "image/tabBar/list-no.png",
+      "selectedIconPath": "image/tabBar/list-yes.png"
+    },
+    {
+      "pagePath": "pages/time/index",
+      "text": "",
+      "iconPath": "image/tabBar/time-no.png",
+      "selectedIconPath": "image/tabBar/time-yes.png"
+    },
+    {
+      "pagePath": "pages/record/index",
+      "text": "",
+      "iconPath": "image/tabBar/record-no.png",
+      "selectedIconPath": "image/tabBar/record-yes.png"
+    },
+    {
+      "pagePath": "pages/person/index",
+      "text": "",
+      "iconPath": "image/tabBar/big-data-no.png",
+      "selectedIconPath": "image/tabBar/big-data-yes.png"
+    }
+  ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,52 @@
+<view class="layout">
+  <view class="column">
+    <view class="logoStyle">
+      <view class="circle">
+        <image src="../../image/person/logo.png" alt="" srcset="" />
+      </view>
+      <view>Muse ToDo</view>
+    </view>
+    <van-divider hairline />
+    <view bindtap="showRate" class="colStyle">
+      <view>Rate</view>
+      <van-icon name="arrow" />
+    </view>
+    <van-divider hairline />
+    <view bindtap="showFeedback" class="colStyle">
+      <view>Feedback</view>
+      <van-icon name="arrow" />
+    </view>
+    <van-divider hairline />
+    <view class="colStyle" bindtap="showAbout">
+      <view>About</view>
+      <van-icon name="arrow" />
+    </view>
+    <van-divider hairline />
+    <view class="colStyle">
+      <view>Version</view>
+      <view>v1.0.0</view>
+    </view>
+    <van-divider hairline />
+    <view class="btnStyle">
+      <button style="background-color: #FF8247;" bindtap="logout">Log out</button>
+    </view>
+  </view>
+</view>
+<van-popup show="{{ rateFlag }}" round closeable close-icon-position="top-right" custom-style="height: 300rpx; width: 400rpx;" bind:close="onClose">
+  <view class="rateStyle">
+    <van-rate value="{{ rateValue }}" size="{{ 25 }}" color="#ffd21e" void-icon="star" void-color="#eee" bind:change="onChange" />
+  </view>
+</van-popup>
+<van-popup round show="{{ feedFlag }}" closeable bind:close="onClose" close-on-click-overlay="{{false}}" position="bottom" close-icon-position="top-left" custom-style="height: 50%;" bind:close="onClose">
+  <view class="achieve" bindtap="Done">Send</view>
+  <view class="container">
+    <view class="popupTitle">Feedback</view>
+    <textarea model:value='{{feedbackText}}' type="text" placeholder="Do you have any suggestions for this mini program" />
+  </view>
+</van-popup>
+<van-popup show="{{ aboutFlag }}" round closeable close-icon-position="top-right" custom-style="width: 80%;" bind:close="onClose">
+  <view class="textStyle">
+    <view>{{aboutText}}</view>
+  </view>
+</van-popup>
+<van-toast id="van-toast" />

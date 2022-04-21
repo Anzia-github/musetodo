@@ -1,0 +1,120 @@
+Page {
+  width: 100%;
+  height: 100%;
+}
+
+.layout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardList {
+  width: 90%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 40rpx;
+  justify-items: center;
+  margin: 60rpx;
+}
+
+.card {
+  width: 300rpx;
+  height: 200rpx;
+  background-color: #FAFAFA;
+  border-radius: 30rpx;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+}
+
+.title {
+  position: relative;
+  width: 100%;
+  font-size: 40rpx;
+  color: #4D4D4D;
+}
+
+.title view {
+  position: absolute;
+  max-width: 190rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  top: -26rpx;
+  left: 30rpx;
+}
+
+.close {
+  position: absolute;
+  top: 10rpx;
+  left: 200rpx;
+}
+
+.time {
+  position: relative;
+}
+
+.number {
+  position: absolute;
+  font-size: 50rpx;
+  top: -36rpx;
+  left: -120rpx;
+  max-width: 150rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: none;
+}
+
+.hour {
+  position: absolute;
+  color: #4D4D4D;
+  top: -26rpx;
+  right: -120rpx;
+}
+
+.add {
+  position: fixed;
+  bottom: 200rpx;
+  right: 25rpx;
+  height: 120rpx;
+  width: 120rpx;
+  border-radius: 50%;
+  background-color: #CCCCCC;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10rpx 10rpx #D5D5D5;
+}
+
+.add image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.achieve {
+  color: #969696;
+  font-weight: 100;
+  position: absolute;
+  top: 30rpx;
+  right: 30rpx;
+}
+
+.container {
+  position: relative;
+  top: 120rpx;
+  left: 60rpx;
+}
+
+.container input {
+  border-bottom: 2rpx solid black;
+  width: 80%;
+}
+
+.popupTitle {
+  font-size: 46rpx;
+  margin-bottom: 30rpx;
+}

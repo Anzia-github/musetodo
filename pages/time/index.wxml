@@ -1,0 +1,20 @@
+<view class="layout">
+  <view class="bubble_loading {{relaxFlag ? 'bubble_relax' : ''}}">
+    <van-count-down use-slot time="{{ time }}" auto-start="{{ false }}" bind:change="timeChange" class="control-count-down" bind:finish="finished">
+      <text class="item">{{ timeData.minutes < 10 ? '0' + timeData.minutes : timeData.minutes }}:</text>
+          <text class="item">{{ timeData.seconds < 10 ? '0' + timeData.seconds : timeData.seconds }}</text>
+    </van-count-down>
+  </view>
+  <button class="btn_style" bindtap="timeon" wx:if="{{start}}">START</button>
+  <button class="btn_style" wx:if="{{pause}}" bindtap="pause">PAUSE</button>
+  <view wx:if="{{continue}}" class="box">
+    <button class="btn_style" wx:if="{{continue}}" style="margin-right: 40rpx;" bindtap="continue">ON</button>
+    <button class="btn_style" wx:if="{{end}}" bindtap="end">END</button>
+  </view>
+</view>
+<van-popup show="{{ show }}" round position="bottom" custom-style="height: 40%">
+  <van-picker columns="{{ columns }}" close-on-click-overlay="{{false}}" confirm-button-text='Confirm' cancel-button-text='Cancel' show-toolbar title="Select Plan" default-index="{{ 0 }}" bind:cancel="startCancel" bind:confirm="startConfirm" bind:change="onChange" />
+</van-popup>
+<van-dialog id="van-dialog" />
+<van-notify id="van-notify" />
+<van-toast id="van-toast" />

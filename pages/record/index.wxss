@@ -1,0 +1,111 @@
+.layout {
+  width: 100%;
+  height: 100%;
+}
+
+.card {
+  border-radius: 15rpx;
+  margin: 25rpx;
+  height: 300rpx;
+  background-color: #FFFFE0;
+}
+
+.text_style {
+  display: flex;
+  justify-content: space-between;
+  text-overflow: ellipsis;
+}
+
+.content {
+  width: 95%;
+  height: 210rpx;
+  /* overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical; */
+  margin-left: 25rpx;
+  margin-right: 15rpx;
+  color: #696969;
+  font-size: smaller;
+  font-weight: 500;
+}
+
+.card text {
+  margin: 18rpx;
+  font-weight: 500;
+  font-size: 25rpx;
+  color: #C7C7C7;
+}
+
+.btn {
+  position: fixed;
+  height: 120rpx;
+  width: 120rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10rpx 10rpx #D5D5D5;
+  z-index: 100;
+}
+
+.set {
+  bottom: 220rpx;
+  right: 25rpx;
+  background-color: #98F5FF;
+}
+
+.add {
+  bottom: 60rpx;
+  right: 25rpx;
+  background-color: #FFF68F;
+}
+
+.add image {
+  width: 70rpx;
+  height: 70rpx;
+}
+
+.btn image {
+  width: 70rpx;
+  height: 70rpx;
+}
+
+.achieve {
+  color: #969696;
+  font-weight: 100;
+  position: absolute;
+  top: 30rpx;
+  right: 30rpx;
+}
+
+.edit {
+  left: 30rpx;
+  color: #9BCD9B;
+}
+
+.form_style {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 120rpx;
+}
+
+.area {
+  display: block;
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  display:none;
+  width:0;
+  height:0;
+  color:transparent;
+}
+
+.delete {
+  font-size: 2rem;
+  position: relative;
+  top: 40%;
+  right: 55%;
+  color: #EE9572;
+}

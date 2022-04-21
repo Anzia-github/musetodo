@@ -1,0 +1,79 @@
+<view class="layout">
+  <view class="person" bindtap="showSetting">
+    <view class="text_style">
+      <view class="name">{{userInfo ? userInfo.nickName : 'Login in'}}</view>
+      <view class="sum">
+        <view class="hour">
+          <text class="number">{{totalHour}}h</text>
+          <view class="font">Total Hours</view>
+        </view>
+        <view class="count">
+          <text class="number">{{completed}}</text>
+          <view class="font">completed</view>
+        </view>
+      </view>
+    </view>
+    <view class="photo">
+      <image src="{{userInfo.avatarUrl}}" alt="" srcset="" />
+      <van-icon name="arrow" />
+    </view>
+  </view>
+  <view class="classify">
+    <view class="chart_title">Management</view>
+    <view class="element">
+      <button class="box plan_tag" bindtap="showTemplate"><text>Template</text></button>
+      <button class="box record_tag" bindtap="showTag"><text>Tag</text></button>
+    </view>
+  </view>
+  <view class="chart">
+    <view class="task pie">
+      <view class="title">
+        <view class="chart_title">Task Statistical</view>
+        <view class="date">
+          <view bindtap="piechangeDay" style="{{pieFlag == 0 ? 'background-color: #C1FFC1;' : ''}}" data-id="{{0}}">Day</view>
+          <view bindtap="piechangeDay" style="{{pieFlag == 1 ? 'background-color: #C1FFC1;' : ''}}" data-id="{{1}}">Week</view>
+          <view bindtap="piechangeDay" style="{{pieFlag == 2 ? 'background-color: #C1FFC1;' : ''}}" data-id="{{2}}">Month</view>
+        </view>
+      </view>
+      <view class="chartStyle">
+        <view wx:if="{{pieFlag == 0}}">
+          <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ pie0 }}"></ec-canvas>
+        </view>
+        <view wx:if="{{pieFlag == 1}}">
+          <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ pie1 }}"></ec-canvas>
+        </view>
+        <view wx:if="{{pieFlag == 2}}">
+          <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ pie2 }}"></ec-canvas>
+        </view>
+      </view>
+
+    </view>
+    <view class="page">
+      {{today}}
+    </view>
+    <view class="task lineChart foucus">
+      <view class="title">
+        <view class="chart_title">Foucus Time</view>
+        <view class="date">
+          <view bindtap="linechangeDay" style="{{lineFlag == 0 ? 'background-color: #C1FFC1;' : ''}}" data-id="{{0}}">Day</view>
+          <view bindtap="linechangeDay" style="{{lineFlag == 1 ? 'background-color: #C1FFC1;' : ''}}" data-id="{{1}}">Week</view>
+          <view bindtap="linechangeDay" style="{{lineFlag == 2 ? 'background-color: #C1FFC1;' : ''}}" data-id="{{2}}">Month</view>
+        </view>
+      </view>
+      <view class="chartStyle">
+        <view wx:if="{{lineFlag == 0}}">
+          <ec-canvas class="line" id="mychart-dom-line" canvas-id="mychart-line" ec="{{ line0 }}"></ec-canvas>
+        </view>
+        <view wx:if="{{lineFlag == 1}}">
+          <ec-canvas class="line" id="mychart-dom-line" canvas-id="mychart-line" ec="{{ line1 }}"></ec-canvas>
+        </view>
+        <view wx:if="{{lineFlag == 2}}">
+          <ec-canvas class="line" id="mychart-dom-line" canvas-id="mychart-line" ec="{{ line2 }}"></ec-canvas>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="page">
+    {{today}}
+  </view>
+</view>

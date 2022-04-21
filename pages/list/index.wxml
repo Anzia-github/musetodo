@@ -1,0 +1,87 @@
+<view class="layout">
+  <view class="one">
+    <text class="title" style="color: red">Important & Urgency</text>
+    <scroll-view scroll-y style="height: 90%">
+      <view wx:for="{{planList}}" wx:key="_id" wx:if="{{item.urgency == 0}}">
+        <van-swipe-cell right-width="{{ 30 }}">
+          <view slot="right" class='delete'>
+            <van-icon data-item="{{item}}" bindtap="delete" name="delete-o" />
+          </view>
+          <checkbox data-item="{{item}}" checked="{{item.finish}}" data-id="{{item.id}}" bindtap="finish"></checkbox><text class="checkText" data-item="{{item}}" bindtap="detail">{{item.title}}</text>
+        </van-swipe-cell>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="two">
+    <text class="title" style="color: orange">Important & N'Urgency</text>
+    <scroll-view scroll-y style="height: 90%">
+      <view wx:for="{{planList}}" wx:key="_id" wx:if="{{item.urgency == 1}}">
+        <van-swipe-cell right-width="{{ 30 }}">
+          <view slot="right" class='delete'>
+            <van-icon data-item="{{item}}" bindtap="delete" name="delete-o" />
+          </view>
+          <checkbox data-item="{{item}}" checked="{{item.finish}}" data-id="{{item.id}}" bindtap="finish"></checkbox><text class="checkText" data-item="{{item}}" bindtap="detail">{{item.title}}</text>
+        </van-swipe-cell>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="three">
+    <text class="title" style="color: #0099ff">N'Important & Urgency</text>
+    <scroll-view scroll-y style="height: 90%">
+      <view wx:for="{{planList}}" wx:key="_id" wx:if="{{item.urgency == 2}}">
+        <van-swipe-cell right-width="{{ 30 }}">
+          <view slot="right" class='delete'>
+            <van-icon data-item="{{item}}" bindtap="delete" name="delete-o" />
+          </view>
+          <checkbox data-item="{{item}}" checked="{{item.finish}}" data-id="{{item.id}}" bindtap="finish"></checkbox><text class="checkText" data-item="{{item}}" bindtap="detail">{{item.title}}</text>
+        </van-swipe-cell>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="four">
+    <text class="title" style="color: grey">N'Important & N'Urgency</text>
+    <scroll-view scroll-y style="height: 90%">
+      <view wx:for="{{planList}}" wx:key="_id" wx:if="{{item.urgency == 3}}">
+        <van-swipe-cell right-width="{{ 30 }}">
+          <view slot="right" class='delete'>
+            <van-icon data-item="{{item}}" bindtap="delete" name="delete-o" />
+          </view>
+          <checkbox data-item="{{item}}" checked="{{item.finish}}" data-id="{{item.id}}" bindtap="finish"></checkbox><text class="checkText" data-item="{{item}}" bindtap="detail">{{item.title}}</text>
+        </van-swipe-cell>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<view class="add" bindtap="add">
+  <image src="../../image/list/add.png" alt="add" />
+</view>
+<van-popup show="{{ show }}" closeable close-icon-position="top-left" close-on-click-overlay="{{false}}" position="top" custom-style="height: 100%" bind:close="onClose">
+  <view class="achieve" bindtap="Done">{{updateId.length > 0 ? 'Update' : 'Done'}}</view>
+  <view class="form_style">
+    <input type="text" model:value='{{title}}' placeholder="Title" />
+    <van-divider hairline />
+    <text>{{localTime}}</text>
+    <van-divider hairline />
+    <view class="sort" bindtap="urgencySelect">
+      <text>Degree Classification</text>
+      <view><text>{{['I & U', "I & N'U", "N'I & U", "N'I & N'U"][urgency]}}</text>
+        <van-icon name="arrow" style="margin-left: 10rpx;" />
+      </view>
+    </view>
+    <van-divider hairline />
+    <view class="sort" bindtap="tagSelect">
+      <text>Tag Classification</text>
+      <view>
+        <text>{{tagName}}</text>
+        <van-icon name="arrow" style="margin-left: 10rpx;" />
+      </view>
+    </view>
+    <van-divider hairline />
+    <textarea placeholder="Remarks" model:value='{{remarks}}' name="" id="" cols="30" rows="10"></textarea>
+  </view>
+</van-popup>
+<van-popup round show="{{ pickerShow }}" close-on-click-overlay="{{false}}" position="bottom" custom-style="height: 50%;" bind:close="onClose">
+  <van-picker id="picker" show-toolbar title="{{pickerTitle}}" confirm-button-text='Confirm' cancel-button-text='Cencel' columns="{{ columns }}" bind:cancel="onCancel" bind:confirm="onConfirm" bind:change="onChange" />
+</van-popup>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />
