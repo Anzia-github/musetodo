@@ -154,7 +154,7 @@ Page({
     console.log(timingPlan);
     if (timingPlan) {
       wx.setStorageSync('timingPlan', timingPlan)
-      let start = new Date()
+      let start = new Date() // 获得计时开始的时间戳
       let startTime = Date.parse(start)
       this.setData({
         startTime: startTime,
@@ -163,8 +163,9 @@ Page({
         show: false,
         relaxFlag: false
       })
+      // 获取计时器组件
       const countDown = this.selectComponent('.control-count-down');
-      countDown.start();
+      countDown.start(); // 设置计时器开始计时
     } else {
       Dialog.alert({
           message: 'There is no task to start timing.',
@@ -181,12 +182,12 @@ Page({
       continue: true,
       end: true
     })
-    let tempTime = Date.parse(new Date)
+    let tempTime = Date.parse(new Date) // 获取暂停开始的时间戳
     this.setData({
       tempTime: tempTime
     })
     const countDown = this.selectComponent('.control-count-down');
-    countDown.pause();
+    countDown.pause(); // 设置计时器开始暂停
   },
   continue () {
     this.setData({
@@ -194,14 +195,16 @@ Page({
       continue: false,
       end: false
     })
-    let on = Date.parse(new Date())
+    let on = Date.parse(new Date()) // 获取暂停结束的时间戳
+    // 统计该次暂停的时间
     let pauseTime = on - this.data.tempTime
     this.setData({
+      // 将本次暂停时间加到暂停总时间中
       pauseTime: this.data.pauseTime + pauseTime
     })
     console.log(this.data.pauseTime);
     const countDown = this.selectComponent('.control-count-down');
-    countDown.start();
+    countDown.start(); // 设施计时器开始计时
   },
   end() {
     Dialog.alert({
@@ -210,8 +213,10 @@ Page({
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel'
       }).then(() => {
+        // 获取计时结束时间戳
         let endTime = Date.parse(new Date())
         let pauseTime = endTime - this.data.tempTime
+        // 获取本次计时总时间：结束时间 - 暂停总时间 - 开始时间
         let totalTime = endTime - pauseTime - this.data.pauseTime - this.data.startTime
         this.setData({
           start: true,
@@ -221,13 +226,13 @@ Page({
           timeData: {
             minutes: 25,
             seconds: 0,
-            time: 25 * 60 * 1000
+            time: 25 * 60 * 1000 // 重置时间
           },
           endTime: endTime,
           totalTime: totalTime,
         })
         console.log(totalTime);
-        this.addTime()
+        this.addTime() // 调用云开发添加计时数据
         this.addTagTime()
         let min = Math.floor((totalTime / 1000 / 60) << 0)
         let sec = Math.floor((totalTime / 1000) % 60)

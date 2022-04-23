@@ -20,15 +20,20 @@ Page({
       rateFlag: true
     })
   },
+  // 发送邮件
   sendEmail(text) {
+    // 调用云函数
     wx.cloud.callFunction({
       name: 'sendEmail',
       data: {
+        // 传云函数的参数
         feedbackText: text
       },
+      // 调用云函数成功后执行的方法
       success(res) {
         console.log('send success', res);
       },
+      // 调用云函数失败后执行的方法
       fail(err) {
         console.log('send error', err);
       }

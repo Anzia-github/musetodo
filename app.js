@@ -43,8 +43,10 @@ App({
   tagChart() {
     console.log('调用了全局函数tagChart');
     let time = []
+    // 获取当天 23:59:59 的时间戳
     let now = Date.parse(new Date(new Date().setHours(0, 0, 0, 0) + 24 * 60 * 60 * 1000 - 1))
     console.log(now);
+    // 分别定义每天、每周和每月的时长，单位是ms
     let day = 86400000
     let week = 604800000
     let month = 2592000000
@@ -62,6 +64,7 @@ App({
         let weekMap = new Map()
         let monthMap = new Map()
         for (let i = 0; i < time.length; i++) {
+          //  < 数据的日期 < 现在的日期
           if (time[i].dataTime < now && time[i].dataTime > now - day) { // day
             if (dayMap.has(time[i].tagName)) {
               dayMap.set(time[i].tagName, dayMap.get(time[i].tagName) + time[i].totalTime)
@@ -158,6 +161,7 @@ App({
         time = res.data
         console.log(time);
         for (let i = 0; i < time.length; i++) {
+          // 通过开始时间和结束时间，算出中间时间
           let averageHour = (new Date(time[i].startTime).getHours() + new Date(time[i].endTime).getHours()) / 2
           let averageMin = (new Date(time[i].startTime).getMinutes() + new Date(time[i].endTime).getMinutes()) / 2
           let averageTime = averageMin + 60 * averageHour
@@ -176,20 +180,21 @@ App({
       })
       .catch(err => {})
   },
+  // 对比时间段
   compareTime(averageTime, lineChart, time) {
     let detail = Math.floor(time.totalTime / 1000 / 60 * 100) / 100
     if (averageTime > 0 && averageTime < 240) {
-      lineChart[0] = detail
+      lineChart[0] = detail // 00:00 - 04:00
     } else if (averageTime > 240 && averageTime < 480) {
-      lineChart[1] = detail
+      lineChart[1] = detail // 04:00 - 08:00
     } else if (averageTime > 480 && averageTime < 720) {
-      lineChart[2] = detail
+      lineChart[2] = detail // 08:00 - 12:00
     } else if (averageTime > 720 && averageTime < 960) {
-      lineChart[3] = detail
+      lineChart[3] = detail // 12:00 - 16:00
     } else if (averageTime > 960 && averageTime < 1200) {
-      lineChart[4] = detail
+      lineChart[4] = detail // 16:00 - 20:00
     } else if (averageTime > 1200 && averageTime < 1440) {
-      lineChart[5] = detail
+      lineChart[5] = detail // 20:00 - 24:00
     }
   }
   // ********************************************
