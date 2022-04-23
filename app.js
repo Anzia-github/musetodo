@@ -2,7 +2,7 @@
 App({
   onLaunch() {
     wx.cloud.init({
-      env: 'time-manage-8gxwgld9070ec562'
+      env: '' // 在自己云开发里面获取
     })
   },
   globalData: {},
